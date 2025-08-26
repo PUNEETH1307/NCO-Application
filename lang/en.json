@@ -1,0 +1,21 @@
+{
+  "title": "Occupation Search",
+  "search_placeholder": "Type your occupation here...",
+  "search_button": "Search",
+  "results_title": "Search Results",
+  "no_results": "No results found.",
+  "language_label": "Language",
+  
+  "email_required": "Please enter your email",
+  "otp_invalid": "Invalid OTP",
+  "login": "Login",
+  "verify_otp": "Verify OTP",
+  "logout": "Logout",
+  "select": "Select",
+  "export": "Export Data",
+  
+  "otp_sent": "An OTP has been sent to your email",
+  "enter_otp": "Enter the OTP",
+  "submit": "Submit",
+  "back": "Back"
+}

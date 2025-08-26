@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center-box">
+  <h2>{{ LANGS.get(lang).get('user_login') }}</h2>
+  <form method="post">
+    <label>{{ LANGS.get(lang).get('name') or LANGS.get(lang).get('name_label') }}</label>
+    <input type="text" name="name" placeholder="Your Name" required>
+
+    <label>{{ LANGS.get(lang).get('age') }}</label>
+    <input type="number" name="age" placeholder="18" min="1" required>
+
+    <label>{{ LANGS.get(lang).get('email') }}</label>
+    <input type="email" name="email" placeholder="example@gmail.com" required>
+
+    <button type="submit" class="btn primary">{{ LANGS.get(lang).get('sendotp') }}</button>
+  </form>
+</div>
+{% endblock %}

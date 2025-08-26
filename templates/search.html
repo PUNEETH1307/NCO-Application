@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center-box">
+  <h2>{{ LANGS.get(lang).get('search') }}</h2>
+
+  <form method="POST" action="{{ url_for('search') }}" class="search-row">
+    <input type="text" id="query" name="query" value="{{ query }}" placeholder="{{ LANGS.get(lang).get('search_ph') }}">
+    <button type="button" id="micStart" class="btn outline">{{ LANGS.get(lang).get('mic_start') }}</button>
+    <button type="button" id="micStop" class="btn outline">{{ LANGS.get(lang).get('mic_stop') }}</button>
+
+    <input type="number" name="top_k" value="{{ top_k or 5 }}" min="1" max="50" title="{{ LANGS.get(lang).get('num_results') }}">
+    <button type="submit" class="btn primary">{{ LANGS.get(lang).get('submit') }}</button>
+  </form>
+
+  {% if results %}
+    <p class="muted">{{ results|length }} {{ LANGS.get(lang).get('results_found') }}</p>
+    <div class="card-col">
+      <h3>{{ LANGS.get(lang).get('results') }}</h3>
+      {% for r in results %}
+        <div class="card">
+          <div><strong>{{ r.code }}</strong> — {{ r.job_title }} <span class="muted">(Score: {{ r.score }})</span></div>
+          <form method="post" action="{{ url_for('select', row_idx=r.row_idx) }}">
+            <button type="submit" class="btn success">Select</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+(function() {
+  const startBtn = document.getElementById("micStart");
+  const stopBtn  = document.getElementById("micStop");
+  const queryInput = document.getElementById("query");
+
+  let rec = null;
+
+  // Check if browser supports speech recognition
+  if ('webkitSpeechRecognition' in window) {
+    rec = new webkitSpeechRecognition();
+    rec.lang = "{{ 'hi-IN' if lang == 'hi' else 'en-US' }}"; // ✅ FIXED
+    rec.continuous = false;
+    rec.interimResults = false;
+
+    rec.onresult = function(e) {
+      const text = e.results[0][0].transcript;
+      queryInput.value = text;   // put recognized speech into input box
+    };
+
+    rec.onerror = function(e) {
+      console.error("Speech recognition error:", e.error);
+      alert("Speech recognition error: " + e.error);
+    };
+
+    rec.onend = function() {
+      console.log("Speech recognition stopped.");
+    };
+  } else {
+    startBtn.disabled = true;
+    stopBtn.disabled  = true;
+    startBtn.title = stopBtn.title = "Speech recognition not supported in this browser.";
+  }
+
+  if (rec) {
+    startBtn.addEventListener("click", () => { rec.start(); });
+    stopBtn.addEventListener("click", () => { rec.stop(); });
+  }
+})();
+</script>
+{% endblock %}

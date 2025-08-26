@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center-box">
+  <h2>{{ LANGS.get(lang).get('admin_login') }}</h2>
+  <form method="post">
+    <label>Admin ID</label>
+    <input type="text" name="admin_id" placeholder="e.g. 4AD23CS083" required>
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit" class="btn success">Login</button>
+  </form>
+</div>
+{% endblock %}

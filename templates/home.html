@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center-box">
+  <h2>Welcome to NCO Portal</h2>
+  <p>Please select an option:</p>
+  <div style="margin-top:20px;">
+    <a href="{{ url_for('login') }}">
+      <button class="btn primary">{{ LANGS.get(lang).get('user_login') }}</button>
+    </a>
+    <a href="{{ url_for('login_admin') }}">
+      <button class="btn success">{{ LANGS.get(lang).get('admin_login') }}</button>
+    </a>
+  </div>
+</div>
+{% endblock %}

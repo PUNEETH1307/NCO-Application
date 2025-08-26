@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>NCO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">NCO</div>
+    <div class="spacer"></div>
+
+    <a class="navlink" href="{{ url_for('home') }}">Home</a>
+    <a class="navlink" href="{{ url_for('search') }}">Search</a>
+
+    {% if session.get('admin_id') %}
+      <a class="navlink" href="{{ url_for('admin_dashboard') }}">Admin</a>
+    {% endif %}
+
+    <div class="lang-dark">
+      <div class="lang">
+        <a class="navlink" href="{{ url_for('set_lang', lang='en') }}">EN</a> |
+        <a class="navlink" href="{{ url_for('set_lang', lang='hi') }}">हिंदी</a>
+      </div>
+      <button id="darkToggle" class="darkbtn">🌙</button>
+      {% if session.get('email') or session.get('admin_id') %}
+        <a class="navlink" href="{{ url_for('logout') }}">{{ LANGS.get(lang).get('sign_out') }}</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for cat, msg in messages %}
+            <div class="flash {{cat}}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
